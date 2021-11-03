@@ -10,5 +10,6 @@ module.exports = {
      host: process.env.HOST,
      login: process.env.LOGIN,
      secretkey: process.env.SECRET_KEY,
+     password: process.env.PASSWORD,
      keytime: '1d'
 }
