@@ -15,6 +15,7 @@ async function getUsers(req, res, next){
             });
 
     } catch (error) {
+        
         return res.status(404).send({
             message: "Error: getUsers = "+error,
             status: false,

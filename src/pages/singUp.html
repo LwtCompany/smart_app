@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth page</title>
+    <link rel="stylesheet" href="./auth.css">
+</head>
+<body>
+    <div class="form" onsubmit="myFunc(); return false;">
+      
+        <ul class="tab-group">
+          <li class="tab active"><a href="./singUp.html">Sign Up</a></li>
+          <li class="tab" ><a href="./singIn.html">Log In</a></li>
+        </ul>
+        
+        <div class="tab-content">
+          <div id="signup" >    
+            <h1>Sign Up for Free</h1>
+            
+            <form action="/" method="post">
+              <div class="field-wrap">
+                <label>
+                  Full name<span class="req">*</span>
+                </label>
+                <input type="text" id="full_name" required autocomplete="off"/>
+              </div>
+
+            <div class="top-row">
+              <div class="field-wrap">
+                <label>
+                  Login<span class="req">*</span>
+                </label>
+                <input type="text" id="login" required autocomplete="off" />
+              </div>
+          
+              <div class="field-wrap">
+                <label>
+                  Password<span class="req">*</span>
+                </label>
+                <input type="password" id="password" required autocomplete="off"/>
+              </div>
+            </div>
+  
+            <button type="submit" class="button button-block">Get Started</button>
+            
+            </form>
+  
+          </div>
+          
+          
+        </div>
+        
+   </div> 
+
+  <script src="./auth.js"></script>
+
+  <script>
+    
+   function  myFunc(){
+       console.log('wefewf')
+  }
+  </script>
+</body>
+</html>
