@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { secretkey } = require('../../config/index');
+const { secretkey } = require('../config/env.config');
 
 const verifyToken = (Roles) => {
      return (req, res, next) => {
