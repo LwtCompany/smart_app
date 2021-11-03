@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Xurshidbek98/smart_app#readme",
   "dependencies": {
     "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
