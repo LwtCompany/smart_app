@@ -5,21 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth page</title>
-    <link rel="stylesheet" href="./auth.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/signIn.css">
 </head>
 <body>
-    <div class="form" onsubmit="myFunc(); return false;">
+  <div class="alert" id="error" style="display: none;">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  </div>
+    <div class="form" onsubmit="signUp(); return false;">
       
         <ul class="tab-group">
-          <li class="tab active"><a href="./singUp.html">Sign Up</a></li>
-          <li class="tab" ><a href="./singIn.html">Log In</a></li>
+          <li class="tab active"><a href="./signUp.html">Sign Up</a></li>
+          <li class="tab" ><a href="./signIn.html">Log In</a></li>
         </ul>
         
         <div class="tab-content">
           <div id="signup" >    
             <h1>Sign Up for Free</h1>
             
-            <form action="/" method="post">
+            <form action="/" method="post" id="signUpForm">
               <div class="field-wrap">
                 <label>
                   Full name<span class="req">*</span>
@@ -54,16 +58,9 @@
         
    </div> 
 
-   <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-   <script>
-   
-       var socket = io("http://localhost:8080");
+   <!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+   <script src="./js/chat.js"></script> -->
 
-       socket.on("connect", () => {
-        console.log(socket.id); 
-      });
-   
-  
-   </script>
+   <script src="./js/auth.js"></script>
 </body>
 </html>

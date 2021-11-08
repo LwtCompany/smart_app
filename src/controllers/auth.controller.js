@@ -3,63 +3,88 @@ const jwt = require ("jsonwebtoken");
 const config = require("../config/env.config");
 
 
-//registrationUser
 
-async function createUser(req, res, next){
+module.exports = function(socket_io){
+
+    socket_io.on("registration", async (req_data) => {
+      
+       let response = await registration(req_data, socket_io.id);
+
+       if(!response.status)
+        socket_io.emit("response_error", response.message);
+       else
+        socket_io.emit("register_response", response.data);
+
+    });
+
+    socket_io.on("login", async(req_data) => {
+        let response = await login(req_data, socket_io.id);
+
+        if(!response.status)
+         socket_io.emit("response_error", response.message);
+        else
+         socket_io.emit("login_response", response.data);
+    });
+
+
+async function registration(req_data, socket_id){
     try {
-            let {full_name, login, password} = req.body;
-            let data, message = "success";
+        let {full_name, login, password} = req_data;
+        let data, status = true, message = "success";
 
-            let is_have = await modelUser.findOne({
-                where: {
-                    full_name: full_name,
-                    login: login
-                }
-            });
 
-            if(!(is_have)){
-                user = await modelUser.create({
-                    full_name,
-                    login,
-                    password
-                });
-
-               const token = jwt.sign({
-                        id: user.id,
-                        full_name: user.full_name,
-                        password: user.password
-                }, config.secretkey, { expiresIn: config.keytime });
-
-                data = {
-                    "token": token
-                };
-
-            }else{
-                data = {};
-                message = "Sorry this full_name already used";
+        let is_have = await modelUser.findOne({
+            where: {
+                full_name: full_name,
+                login: login
             }
-            
-            return res.status(200).send({
-                message: message,
-                status: true,
-                data: data
+        });
+
+        if(!(is_have)){
+            user = await modelUser.create({
+                full_name,
+                login,
+                password,
+                socket_id
             });
 
-    } catch (error) {
-        return res.status(404).send({
-            message: "Error: getUsers = "+error,
-            status: false,
-            data: {}
-        });
-    }
+           const token = jwt.sign({
+                    id: user.id,
+                    full_name: user.full_name,
+                    password: user.password
+            }, config.secretkey, { expiresIn: config.keytime });
+
+            data = {
+                "token": token,
+                "socket_id": user.socket_id
+            };
+
+        }else{
+            status = false;
+            data = {};
+            message = "Sorry this full_name already used";
+        }
+        
+        return {
+            message: message,
+            status: status,
+            data: data
+        };
+
+} catch (error) {
+    return {
+        message: "Error: getUsers = "+error,
+        status: false,
+        data: {}
+    };
+}
 }
 
-//loginUser
 
 async function login(req, res, next){
     try {
         let {login, password} = req.query;
-        let message = "success";
+        let message = "success",  status = true;
 
         let is_auth = await modelUser.findOne({
             where: {
@@ -76,31 +101,31 @@ async function login(req, res, next){
             }, config.secretkey, { expiresIn: config.keytime });
 
             data = {
-                "token": token
+                "token": token,
+                "socket_id": user.socket_id
             };
 
         }else{
+            status = false;
             message = "Login or password incorrect!";
             data = {};
         }
 
-        return res.status(200).send({
+        return {
             message: message,
-            status: true,
+            status: status,
             data: data
-        });
+        };
 
     } catch (error) {
-        return res.status(404).send({
+        return {
             message: "Error: login = "+error,
             status: false,
             data: {}
-        });
+        };
     }
 }
 
-
-module.exports = {
-    createUser,
-    login
 }
+
+

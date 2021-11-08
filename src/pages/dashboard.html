@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<title>huntergramm</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey" >
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+ 
+  <span class="w3-bar-item w3-right">huntergramm</span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    
+    <div class="w3-col s4">
+      <img src="https://ava.loohk.com/telegram-341740/avatar_pubg.jpg" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+
+    <div class="w3-col s8 w3-bar">
+      <span id="user_name">Welcome, </span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="signIn.html" onclick="singOut()" class="w3-bar-item w3-button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+    </div>
+
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Online <i class="fa fa-circle" style="color: green" aria-hidden="true"></i></h5>
+  </div>
+
+  <div class="w3-bar-block" id="userList"> 
+  </div>
+</nav>
+
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+   
+    <h5><b><i class="fa fa-user"></i>  User Mike</b></h5>
+  </header>
+
+
+
+ 
+
+  <div class="w3-container">
+   
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="https://ava.loohk.com/telegram-341740/avatar_pubg.jpg" style="width:96px;height:96px">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
+        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
+      </div>
+    </div>
+
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="https://static10.tgstat.ru/channels/_0/4c/4c4aa5f3b952032ef32156ee208a74ab.jpg" style="width:96px;height:96px">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
+        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script src="http://localhost:8080/socket.io/socket.io.js"></script> 
+<script src="./js/client.js"></script>
+<script src="./js/auth.js"></script>
+<script>
+    let my_element = document.createElement('strong');
+    my_element.innerHTML = sessionStorage.getItem("name");;
+
+    user_name.appendChild(my_element);
+
+  
+</script>
+</body>
+</html>

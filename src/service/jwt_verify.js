@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { secretkey } = require('../config/env.config');
 
-const verifyToken = (Roles) => {
+const verifyToken = () => {
      return (req, res, next) => {
           const token = req.headers['token'];
 
@@ -20,14 +20,14 @@ const verifyToken = (Roles) => {
                     data: {}
                });
 
-               const result = Roles.find((e) => e === decoded.role);
+               // const result = Roles.find((e) => e === decoded.role);
 
-               if (!result) return res.status(402).json({
-                    message: 'You have not permission for this url',
-                    status: false,
-                    error_code: 0,
-                    data: {}
-               });
+               // if (!result) return res.status(402).json({
+               //      message: 'You have not permission for this url',
+               //      status: false,
+               //      error_code: 0,
+               //      data: {}
+               // });
 
                next();
           });

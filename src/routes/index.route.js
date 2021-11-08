@@ -1,18 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../service/jwt_verify');
 const {
+    getUsers,
     createUser,
-    login
-} = require('../controllers/auth.controller');
-
-const {
-    getUsers
+    login,
+    createMessage,
+    getMessages
 } = require('../controllers/user.controller');
 
 router.post('/registration', createUser);
 router.get('/login', login);
 
+router.post('/createMessage', createMessage);
+router.get('/getMessages', getMessages);
 
+router.use(verifyToken());
 router.get('/userList', getUsers);
 
 router.use('*', (req, res, next) => {

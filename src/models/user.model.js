@@ -12,6 +12,9 @@ const User = db.define('user', {
         allowNull: false,
        
     },
+    socket_id: {
+        type: Sequelize.STRING(25)
+    },
     login: {
         type: Sequelize.STRING(20),
         allowNull: false,

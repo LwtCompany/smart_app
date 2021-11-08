@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 const {Server} = require('socket.io');
 
+const socket_controller = require("./controllers/socket.controller");
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -11,9 +12,7 @@ const io = new Server(server, {
 })
 
 io.on("connection", (socket) => {
-   
-        console.log(socket.id)
-    
+    socket_controller(socket);
 });
 
 const port = process.env.PORT || 3000;
@@ -21,3 +20,6 @@ const port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log(`Server running! port: ${port} `);
 });
+
+
+module.exports = io;
