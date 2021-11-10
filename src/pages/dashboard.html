@@ -48,47 +48,23 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container" id="userName" style="padding-top:22px">
    
-    <h5><b><i class="fa fa-user"></i>  User Mike</b></h5>
+
   </header>
 
 
-
- 
-
-  <div class="w3-container" id="mainMessages">
-   
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="https://ava.loohk.com/telegram-341740/avatar_pubg.jpg" style="width:96px;height:96px">
-      </div>
-      <div class="w3-col m10 w3-container">
-        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
-        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="https://static10.tgstat.ru/channels/_0/4c/4c4aa5f3b952032ef32156ee208a74ab.jpg" style="width:96px;height:96px">
-      </div>
-      <div class="w3-col m10 w3-container">
-        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
-        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-   
+  <div class="w3-container" id="mainMessages">  
   </div>
 
-  <div class="w3-row-padding">
+  <div  id="MyInput" style="display: none;">
       
     <input id="my_message" class="w3-input w3-border w3-animate-input" type="text" style="width:30%">
 
     <input id="fileInput" type="file" style="display:none;" />
     <button class="w3-button w3-circle w3-teal" onclick="document.getElementById('fileInput').click();">+</button>
 
-    <button style="margin-top: 10px;" onclick="sendMessage()" class="w3-button w3-black">Send message</button>
+    <button style="margin-top: 10px; border: 1px solid red;" onclick="sendMessage()" class="w3-button w3-black">Send message</button>
   </div>
 </div>
 

@@ -2,8 +2,9 @@ const modelUser = require('../models/user.model');
 const modelMessage = require('../models/message.model');
 const { Op } = require("sequelize");
 const verifyToken = require('../service/socket_verify');
-
-
+const fs = require('fs');
+const path = require('path')
+// const buffer = require('buffer');
 
 module.exports = function(socket_io){
    
@@ -16,10 +17,9 @@ module.exports = function(socket_io){
         else{
             let response = await getUsers(req_data.id);
             if(!response.status)
-            // console.log("status false")
+         
              socket_io.emit("response_error", response.message);
             else
-            // console.log("status tru")
                 socket_io.emit("userListData", response.data);
            
         }
@@ -36,14 +36,83 @@ module.exports = function(socket_io){
             let response = await getMessages(req_data.id, req_data.user_id);
             if(!response.status)
              socket_io.emit("response_error", response.message);
-            else
-                // console.log(response.data);
-             socket_io.emit("messageListData", response.data);
+            else{
+                socket_io.emit("messageListData", response.data);
+            }
+              
+           
+        }
+    });
+    
+    socket_io.on('upload-image', async (img) => {
+     
+        let auth = await verifyToken(img.token);
+       
+        if(!auth.status)
+            socket_io.emit("response_error", response.message);
+        else{
+            let response = await createMessage(img);
+
+            if(!response.status)
+             socket_io.emit("response_error", response.message);
+
+            else{
+              
+                let message = await getMessages(img.user_id, img.to_id);
+                if(!message.status)
+                 socket_io.emit("response_error", message.message);
+                else{
+                    socket_io.broadcast.emit("messageListData", message.data);
+                    socket_io.emit("messageListData", message.data);
+                }
+               
+            }
+               
            
         }
     });
 
-    socket_io.emit("hello", "world");
+    socket_io.on('get-user-index', async (data) => {
+     
+        let auth = await verifyToken(data.token);
+       
+        if(!auth.status)
+            socket_io.emit("response_error", response.message);
+        else{
+            let response = await getUser(data.user_id);
+
+            if(!response.status)
+             socket_io.emit("response_error", response.message);
+            else
+             socket_io.emit('userData', response.data);
+        }
+
+    })
+}
+
+async function getUser(id){
+   try {
+
+        let data = await modelUser.findOne({
+            where: {
+                id
+            }
+        });
+
+        return {
+            message: "success",
+            status: true,
+            data
+        };
+
+    } catch (error) {
+
+        return {
+            message: "Error: getUsers = " + error,
+            status: false,
+            data: {}
+        };
+    }
 }
 
 async function getUsers(id){
@@ -102,6 +171,7 @@ async function getMessages(user_id, to){
                 ]
             });
 
+           
             return{
                 message: "success",
                 status: true,
@@ -112,6 +182,52 @@ async function getMessages(user_id, to){
         
         return {
             message: "Error: getMessages = " + error,
+            status: false,
+            data: {}
+        };
+    }
+}
+
+async function createMessage(img){
+    try {
+        
+        let my_file_url;
+        
+        let my_user_id = img.user_id;
+        let my_to_id = img.to_id;
+        let my_message = img.message;
+        
+        let my_room_id = Math.min(my_user_id,my_to_id) + ''+ Math.max(my_user_id,my_to_id); 
+
+        if(img.name){
+            let my_time = Date.now();
+            my_file_url = `http://localhost:8080/uploads/` + my_time + `--`+img.name;
+           
+           fs.writeFile(path.join(__dirname, '../../uploads/')+my_time + `--`+img.name, img.data,'base64',  (err) =>{
+               if (err) return console.log(err);
+                   console.log('image saved');
+           });
+        }
+
+
+        const data =  await modelMessage.create({
+            user_id: my_user_id,
+            to_id: my_to_id,
+            message: my_message,
+            room_id: my_room_id,
+            file_url: my_file_url
+        });
+
+        return{
+                message: "success",
+                status: true,
+                data
+            };
+
+    } catch (error) {
+        
+        return {
+            message: "Error: createMessage = " + error,
             status: false,
             data: {}
         };

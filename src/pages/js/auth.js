@@ -75,11 +75,11 @@ async function signUp(){
             document.getElementById("error").setAttribute("style", "display: block;");
             document.getElementById("error").innerHTML += my_data.message;
         }else{
-            sessionStorage.setItem("user_id", body.data.id);
-            sessionStorage.setItem("token", body.data.token);
-            sessionStorage.setItem("name", body.data.full_name);
+          
+            sessionStorage.setItem("user_id", my_data.data.id);
+            sessionStorage.setItem("token", my_data.data.token);
+            sessionStorage.setItem("name", my_data.data.full_name);
 
-            clearSignUpData();
             window.location.href="dashboard.html";
         }
     } catch (error) {

@@ -111,7 +111,7 @@ async function createUser(req, res, next){
     try {
             let {full_name, login, password} = req.body;
             let data, message = "success", status = true;
-
+           
             let is_have = await modelUser.findOne({
                 where: {
                     full_name: full_name,
