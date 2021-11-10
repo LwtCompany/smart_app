@@ -12,6 +12,7 @@ const io = new Server(server, {
 })
 
 io.on("connection", (socket) => {
+    socket.broadcast.emit("hello", "world");
     socket_controller(socket);
 });
 

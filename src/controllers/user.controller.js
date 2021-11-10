@@ -3,6 +3,75 @@ const modelMessage = require('../models/message.model');
 const jwt = require ("jsonwebtoken");
 const config = require("../config/env.config");
 const { Op } = require("sequelize");
+const multer  = require('multer');
+
+
+const fileStorageEngine = multer.diskStorage({
+    destination:(req, file, cb)=> {
+        cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+       
+        cb(null, Date.now() + `--` + file.originalname);
+    }
+});
+
+const upload =  multer({storage: fileStorageEngine}).single("photo");
+
+async function createMessage(req, res, next){
+   
+    try {
+       
+        upload(req, res, async (err) => {
+            let my_user_id = req.body.user_id;
+            let my_to_id = req.body.to_id;
+            let my_message = req.body.message;
+            let my_file_url ="";
+
+            if(req.file)
+                my_file_url = req.file.path;
+
+            let my_room_id = Math.min(my_user_id,my_to_id) + ''+ Math.max(my_user_id,my_to_id); 
+         
+            await modelMessage.create({
+                user_id: my_user_id,
+                to_id: my_to_id,
+                message: my_message,
+                room_id: my_room_id,
+                file_url: my_file_url
+            });
+          
+            if(err){
+                console.log(err);
+            } else {
+                   
+                   if(req.file == undefined){
+                     console.log('Error: No File Selected!');          
+                   } 
+                   else {
+                        console.log({
+                             msg: 'File Uploaded!',
+                        });
+                   }
+            }
+              
+         });
+
+         return res.status(200).send({
+              message: 'success',
+              status: true,
+              data: {}
+         });
+
+    } catch (error) {
+         return res.status(404).send({
+              message: 'ERROR : ' + error,
+              status: false,
+              data: {}
+         });
+    }
+
+}
 
 //getUsers
 
@@ -180,40 +249,6 @@ async function getMessages(req, res, next){
             });
         }
 }
-
-//createMessage
-
-async function createMessage(req, res, next){
-            try {
-            
-                let {user_id, room_id, to_id, message} = req.body;
-                let data, my_message = "success", status = true;
-
-                
-                data = await modelMessage.create({
-                    user_id,
-                    room_id,
-                    to_id,
-                    message
-                });
-
-                
-                
-                return res.status(200).send({
-                    message: my_message,
-                    status: status,
-                    data: data
-                });
-
-            } catch (error) {
-                return res.status(404).send({
-                    message: "Error: getUsers = "+error,
-                    status: false,
-                    data: {}
-                });
-            }
-}
-
 
 
 module.exports = {

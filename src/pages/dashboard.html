@@ -57,7 +57,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
  
 
-  <div class="w3-container">
+  <div class="w3-container" id="mainMessages">
    
     <div class="w3-row">
       <div class="w3-col m2 text-center">
@@ -78,14 +78,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
       </div>
     </div>
+   
   </div>
 
+  <div class="w3-row-padding">
+      
+    <input id="my_message" class="w3-input w3-border w3-animate-input" type="text" style="width:30%">
 
+    <input id="fileInput" type="file" style="display:none;" />
+    <button class="w3-button w3-circle w3-teal" onclick="document.getElementById('fileInput').click();">+</button>
+
+    <button style="margin-top: 10px;" onclick="sendMessage()" class="w3-button w3-black">Send message</button>
+  </div>
 </div>
 
 <script src="http://localhost:8080/socket.io/socket.io.js"></script> 
 <script src="./js/client.js"></script>
 <script src="./js/auth.js"></script>
+
 <script>
     let my_element = document.createElement('strong');
     my_element.innerHTML = sessionStorage.getItem("name");;

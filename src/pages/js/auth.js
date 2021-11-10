@@ -150,8 +150,6 @@ function setElements(data){
     }
 }
 
-
-
 function singOut(){
     sessionStorage.clear();
 }

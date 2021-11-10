@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const verifyToken = require('../service/socket_verify');
 
 
+
 module.exports = function(socket_io){
    
     socket_io.on("userList", async (req_data) => {
@@ -42,6 +43,7 @@ module.exports = function(socket_io){
         }
     });
 
+    socket_io.emit("hello", "world");
 }
 
 async function getUsers(id){
@@ -77,18 +79,14 @@ async function getUsers(id){
 async function getMessages(user_id, to){
     try {
         
-            let room1 = user_id+""+to;
-            let room2 = to+""+user_id;
-
+            let my_room_id = Math.min(user_id,to) + ''+ Math.max(to,user_id); 
     
             const data = await modelMessage.findAll({
                 order: [
-                    ['id', 'DESC'],
+                    ['id', 'ASC'],
                 ],
                 where: {
-                        room_id:{
-                        [Op.in]: [room1, room2]
-                    }
+                        room_id:my_room_id
                 },
                 include:[
                     {
